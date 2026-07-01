@@ -30,12 +30,12 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/MagicStar7213/matrix-codec"
-Repository = "https://github.com/MagicStar7213/matrix-codec.git"
-"Bug Tracker" = "https://github.com/MagicStar7213/matrix-codec"
+Homepage = "https://github.com/MagicStar7213/math-utils"
+Repository = "https://github.com/MagicStar7213/math-utils.git"
+"Bug Tracker" = "https://github.com/MagicStar7213/math-utils/issues"
 
 [project.scripts]
-math-utils = "__main__:main"
+math-utils = "mathutils.__main__:main"
 
 [tool.setuptools]
-packages = ["matrices", "geometry"]
+packages = ["mathutils", "mathutils.matrices", "mathutils.geometry"]
