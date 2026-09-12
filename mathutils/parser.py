@@ -15,26 +15,26 @@ def construct_string(lst: list[str | list]) -> str:
     return ''.join([construct_string(x) if isinstance(x, list) else x for x in lst])
 
 
+OPS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Pow: operator.pow,
+    ast.BitXor: operator.xor,
+    ast.USub: operator.neg
+}
+ALLOWED_FUNCTIONS = {
+    "sqrt": math.sqrt,
+    "sin": math.sin,
+    "cos": math.cos,
+    "max": max,
+    "min": min,
+}
 
 class SafeEval(ast.NodeTransformer):
     def __init__(self, env: dict):
         self.env = env
-        self.OPS = {
-            ast.Add: operator.add,
-            ast.Sub: operator.sub,
-            ast.Mult: operator.mul,
-            ast.Div: operator.truediv,
-            ast.Pow: operator.pow,
-            ast.BitXor: operator.xor,
-            ast.USub: operator.neg
-        }
-        self.ALLOWED_FUNCTIONS = {
-            "sqrt": math.sqrt,
-            "sin": math.sin,
-            "cos": math.cos,
-            "max": max,
-            "min": min,
-        }
 
     def visit_Module(self, node):
         node.body = [self.visit(stmt) for stmt in node.body]
@@ -78,7 +78,7 @@ class SafeEval(ast.NodeTransformer):
         return node
 
     def visit_BinOp(self, node):
-        if type(node.op) not in self.OPS.keys():
+        if type(node.op) not in OPS.keys():
             raise ValueError("Operation not allowed")
         node.left = self.visit(node.left)
         if isinstance(node.op, ast.Pow) and isinstance(node.right, ast.Name) and node.right.id.lower() == "t":
@@ -100,11 +100,11 @@ class SafeEval(ast.NodeTransformer):
 
         elif isinstance(node.func, ast.Name):
             func_name = node.func.id
-            if func_name not in self.ALLOWED_FUNCTIONS and not any(func_name == cls.__name__ for cls in self.env['classes']):
+            if func_name not in ALLOWED_FUNCTIONS and not any(func_name == cls.__name__ for cls in self.env['classes']):
                 raise ValueError(f"Function '{func_name}' is not allowed")
 
             node.args = [self.visit(arg) for arg in node.args]
-            if func_name not in self.ALLOWED_FUNCTIONS:
+            if func_name not in ALLOWED_FUNCTIONS:
                 node.func=self.visit(node.func)
             return node
         else:
@@ -146,7 +146,7 @@ def safe_eval(code: str, env=None):
     try:
         ast.parse(new_code, mode='eval')
     except SyntaxError:
-        exec(new_code, evaluator.env['vars'] | dict((k,v) for k,v in zip([cls.__name__ for cls in env['classes']], env['classes'])))
+        exec(new_code, evaluator.env['vars'] | dict((k,v) for k,v in zip([cls.__name__ for cls in env['classes']], env['classes'])) | ALLOWED_FUNCTIONS)
         return None, evaluator.env
     else:
-        return eval(new_code, evaluator.env['vars'] | dict((k,v) for k,v in zip([cls.__name__ for cls in env['classes']], env['classes']))), evaluator.env
+        return eval(new_code, evaluator.env['vars'] | dict((k,v) for k,v in zip([cls.__name__ for cls in env['classes']], env['classes'])) | ALLOWED_FUNCTIONS), evaluator.env
