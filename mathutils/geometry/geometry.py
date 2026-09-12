@@ -29,10 +29,10 @@ def angle(raw: str, env: dict):
         if processed and not isinstance(processed, Point3D): 
             ang.append(processed)
     try:
-        angle = ang[0].angle_between(ang[1])
+        result_angle = ang[0].angle_between(ang[1])
     except AttributeError:
-        angle = ang[1].angle_between(ang[0])
-    print(str(N(angle) if isinstance(angle, (asin,acos,atan)) else N(2*pi+angle) if isinstance(angle, Mul) else pretty(angle))+" rad")
+        result_angle = ang[1].angle_between(ang[0])
+    print(str(N(result_angle) if isinstance(result_angle, (asin,acos,atan)) else N(2*pi+result_angle) if isinstance(result_angle, Mul) else pretty(result_angle))+" rad")
     return env
 
 def distance(raw: str, env: dict):
@@ -42,9 +42,9 @@ def distance(raw: str, env: dict):
         processed, env = process_geometry(geomid, env)
         if processed:
             dist.append(processed)
-    distance = dist[0].distance(dist[1])
-    num_distance = int(N(distance)) if float(N(distance)).is_integer() else float(N(distance))
-    print(f'{pretty(distance)}{f" ({num_distance})" if pretty(num_distance) != pretty(distance) else ""}')
+    result_distance = dist[0].distance(dist[1])
+    num_distance = int(N(result_distance)) if float(N(result_distance)).is_integer() else float(N(result_distance))
+    print(f'{pretty(result_distance)}{f" ({num_distance})" if pretty(num_distance) != pretty(result_distance) else ""}')
     return env
 
 def sim(raw: str, env: dict):
@@ -98,9 +98,9 @@ def get_plane(eq: Equality) -> VPlane:
         point.update({var: solve(eq.subs(*[(i, 0) for i in [x, y, z] if i != var]))[0]})
         p1 = Point3D(*[v for (_,v) in point.items()])
     elif len(coeffs) == 2:
-        vars = [i[0] for i in coeffs]
+        variables = [i[0] for i in coeffs]
         point = def_point.copy()
-        point.update({vars[1]: solve(eq.subs([(i, 0) for i in [x, y, z] if i != vars[1]]), vars[1])[0]})
+        point.update({variables[1]: solve(eq.subs([(i, 0) for i in [x, y, z] if i != variables[1]]), variables[1])[0]})
         p1 = Point3D(*[v for (_, v) in point.items()])
     else:
         p1 = Point3D(0,0, solve(eq.subs([(x,0),(y,0)]),z)[0])
