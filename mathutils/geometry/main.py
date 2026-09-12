@@ -23,7 +23,7 @@ def main():
             pass
         elif re.match(r'relpos \w+,\w+(,\w+)?', raw):
             env = rel_pos(raw, env)
-        elif re.match(r'< \w+,\w+', raw):
+        elif re.match(r'< ((\()?)(?(2)(\w+,\w+(,\w+)\))|\w+),((\()?)(?(6)(\w+,\w+(,\w+)\))|\w+)', raw):
             env = angle(raw, env)
         elif re.match(r"d \w+,\w+", raw):
             env = distance(raw, env)

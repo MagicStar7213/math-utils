@@ -22,7 +22,13 @@ def rel_pos(raw: str, env: dict):
     return env
 
 def angle(raw: str, env: dict):
-    split = raw.removeprefix("< ").split(",")
+    clean = raw.removeprefix("< ")
+    if '(' in clean:
+        split = clean.split('),(')
+        split[0] += ')'
+        split[1] = '(' + split[1]
+    else:
+        split = clean.split(',')
     ang: list[Line3D | VPlane] = []
     for geomid in split:
         processed, env = process_geometry(geomid, env)
