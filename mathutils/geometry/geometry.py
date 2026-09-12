@@ -140,7 +140,7 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
             if re.match(r"([A-Z]+\(-?\d(\.\d+)?,-?\d(\.\d+)?(,-?\d(\.\d+)?)?\))", raw):
                 separated = raw.split("(")
                 separated[-1] = separated[-1].removesuffix(")")
-                point = (separated[0], tuple(map(parse_expr, separated[-1].split(","))))
+                point = (separated[0], tuple(parse_expr(i) for i in separated[-1].split(",")))
                 code = f"{point[0]}=Point3D{point[1]}"
         parsed, env = safe_eval(code, env)
     except SyntaxError as e:
