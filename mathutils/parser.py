@@ -137,7 +137,9 @@ class SafeEval(ast.NodeTransformer):
     def generic_visit(self, node):
         raise ValueError(f"Disallowed syntax: {type(node).__name__}")
 
-def safe_eval(code: str, env:dict={}):
+def safe_eval(code: str, env=None):
+    if env is None:
+        env = {}
     tree = ast.parse(code)
     evaluator = SafeEval(env)
     new_code = ast.unparse(evaluator.visit(tree))
