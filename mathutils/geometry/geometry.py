@@ -56,9 +56,8 @@ def sim(raw: str, env: dict):
             simg.append(processed)
     if len(simg) == 2 and any(isinstance(i,Point3D) for i in simg):
         p = next(i for i in simg if isinstance(i, Point3D))
-        simg.remove(p)
-        simg.insert(0,p)
-        print(sym_point(*simg))# type: ignore
+        r = next(i for i in simg if isinstance(i, (Line3D, VPlane)))
+        print(sym_point(p, r))
     return env
 
 def str_to_list(raw: str) -> list[str | list] | tuple[str, list[Expr]]:
