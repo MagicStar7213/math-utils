@@ -1,4 +1,4 @@
-from sympy import Matrix, symbols
+from sympy import Matrix, Mul, acos, sqrt, symbols
 
 class Vector():
     def __init__(self, x, y, z) -> None:
@@ -27,6 +27,12 @@ class Vector():
     
     def __str__(self) -> str:
         return str(self.components)
+
+    def length(self):
+        return sqrt(self.x**2 + self.y**2 + self.z**2)
+
+    def angle_between(self, v):
+        return acos((self*v)/Mul(self.length(),v.length()))
 
     def escalar(self, v: 'Vector'):
         return self.x*v.x + self.y*v.y + self.z*v.z
