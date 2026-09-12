@@ -2,9 +2,9 @@ import re
 from sympy import N, Mul, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, pretty, solve, Plane, Line3D
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
+from mathutils.parser import construct_string, safe_eval
 from .operations import relpos, sym_point
 from .vector import Vector
-from mathutils.parser import construct_string, safe_eval
 
 
 class VPlane(Plane):
