@@ -38,7 +38,7 @@ def angle(raw: str, env: dict):
         result_angle = ang[0].angle_between(ang[1])
     except AttributeError:
         result_angle = ang[1].angle_between(ang[0])
-    print(str(N(result_angle) if isinstance(result_angle, (asin,acos,atan)) else N(2*pi+result_angle) if isinstance(result_angle, Mul) else pretty(result_angle))+" rad")
+    print(str(N(result_angle) if isinstance(result_angle, (asin,acos,atan)) else N(2*pi+result_angle) if N(result_angle) < 0 else pretty(result_angle))+" rad")
     return env
 
 def distance(raw: str, env: dict):
