@@ -31,7 +31,7 @@ def main():
             env = sim(raw, env)
         else:
             processed, env = process_geometry(raw, env)
-            if processed:
+            if processed is not None:
                 if processed in list(env['vars'].values()):
                     ind = list(env["vars"].values()).index(processed)
                     sym = pretty(Symbol(list(env['vars'].keys())[ind]))
