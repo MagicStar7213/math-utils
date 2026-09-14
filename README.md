@@ -215,8 +215,11 @@ Possible positions are:
 To get the distance between 2 elements you just type `d element1,element2` and you will get the distance and, if it is not a number by itself, it will be also expressed numerically. For example, `d r,pi` returns $`3`$ and `d P,r` gives back $`\sqrt{2}\hspace{2mm}(1.414213)`$
 
 #### <ins>Angles</ins>
-Angles between 2 elements is requested with `< r,pi` and it will be given in **radians**. **Only lines and planes** can be introduced, and any point will give an error.
+You can get the angle between two vectors or a combination of 2 lines and/or planes.
 
+You can get the angle between two vectors by typing them directly: `< (1,0,0),(0,2,4)` or defining them first and then calculating the angle in between: `< u,v`. **Lines and planes, however, must be defined first**.
+
+Angles will be displayed in **radians** and symbollically when possible ( $`\pi/2`$ instead of `1.57079`).
 #### <ins>Symmetric points</ins>
 A symmetric point with respect to a line or plane can be obtained through `sim P,r`, being `P` a **Point** and `r` a **Line or Plane**. It will return the symmetric point's three coordinates: `(-2,0,-3)`
 
