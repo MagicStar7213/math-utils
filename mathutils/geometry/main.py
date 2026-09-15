@@ -2,7 +2,7 @@ import re
 
 from sympy import Equality, Expr, Line3D, Point3D, Symbol, Tuple, pretty
 
-from .geometry import VPlane, angle, distance, process_geometry, rel_pos, sim
+from .geometry import VPlane, angle, distance, process_geometry, rel_pos, sim, length
 from .vector import Vector
 
 def main():
@@ -29,6 +29,8 @@ def main():
             env = distance(raw, env)
         elif re.match(r"sim \w+,\w+", raw):
             env = sim(raw, env)
+        elif re.match(r'\|((\|)?)((\()?)(?(4)(\w+,\w+(,\w+)\))|\w+)(?(2)\|)\|', raw):
+            env = length(raw, env)
         else:
             processed, env = process_geometry(raw, env)
             if processed is not None:

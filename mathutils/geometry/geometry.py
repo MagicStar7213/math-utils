@@ -1,5 +1,5 @@
 import re
-from sympy import N, Mul, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, pretty, solve, Plane, Line3D
+from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, pretty, solve, Plane, Line3D
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
 from mathutils.parser import construct_string, safe_eval
@@ -64,6 +64,17 @@ def sim(raw: str, env: dict):
         p = next(i for i in simg if isinstance(i, Point3D))
         r = next(i for i in simg if isinstance(i, (Line3D, VPlane)))
         print(sym_point(p, r))
+    return env
+
+def length(raw: str, env: dict):
+    clean = raw.removeprefix('|').removesuffix('|')
+    if clean[0] == '|':
+        clean = clean.removeprefix('|').removesuffix('|')
+    processed, env = process_geometry(clean, env)
+    if isinstance(processed, Vector):
+        print(pretty(processed.length()))
+    else:
+        print("Value error: You can't get the length of that.")
     return env
 
 def str_to_list(raw: str) -> list[str | list] | tuple[str, list[Expr]]:

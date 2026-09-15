@@ -158,6 +158,9 @@ To get the dot product of $`\vec{u}`$ and $`\vec{v}`$ ($`\vec{u}`$ · $`\vec{v}`
 #### <ins>Cross product</ins>
 Cross product works in a similar way, but only wedge (^) is allowed, so to get the cross product you type `u^v` or `(2,-1,0)^(1,1,-2)`
 
+#### <ins>Magnitude</ins>
+You can obtain the magnitude/length of a vector using the regular notation for it `||(1,2,3)||`, or replacing the explicit vector with a variable `||v||`. However, to save you some time, it is also allowed to use the form of absolute value ( `|(1,2,3)|` ) for getting the magnitude of a vector.
+
 ### Analytic Geometry
 Math Utils can also work with geometric entities, such as points, lines and planes. To define a point, input the name of the point followed by its coordinates: `P(0,2,1)`
 
