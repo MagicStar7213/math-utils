@@ -1,11 +1,11 @@
 from sympy import Matrix, Mul, acos, sqrt, symbols
 
 class Vector():
-    def __init__(self, x, y, z) -> None:
+    def __init__(self, x, y, z=None) -> None:
         self.x = x
         self.y = y
-        self.z = z
-        self.components = (x,y,z)
+        self.z = z if z is not None else 0
+        self.components = (self.x,self.y) + (tuple(z) if z is not None else tuple())
     
     def __neg__(self):
         return Vector(-self.x, -self.y, -self.z)
