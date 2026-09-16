@@ -81,6 +81,7 @@ def length(raw: str, env: dict):
     return (result_length, env)
 
 def str_to_list(raw: str) -> list[str | list] | tuple[str, list[Expr]]:
+    """Converts user input into a machine-readable list of strings"""
     stack: list[list[str | list]] = [[]]
     current: list[str | list] = stack[-1]
     for char in raw:
@@ -109,6 +110,7 @@ def str_to_list(raw: str) -> list[str | list] | tuple[str, list[Expr]]:
     return stack[0]
 
 def get_plane(eq: Equality) -> VPlane:
+    """Extracts the plane from an equation"""
     def_point:dict[Symbol,(int | Expr)] = {x:0,y:0,z:0}
     coeffs: list[tuple[Symbol, Expr]] = [(i, eq.lhs.coeff(i)) for i in [x, y, z] if eq.lhs.coeff(i) != 0] # type: ignore
     if len(coeffs) == 1:
@@ -127,6 +129,7 @@ def get_plane(eq: Equality) -> VPlane:
     return VPlane(p1, normal_vector=Vector(eq.lhs.coeff(x), eq.lhs.coeff(y), eq.lhs.coeff(z))) # type: ignore
 
 def parse_equations(raw: list[str | list] | tuple[str, list[Expr]], env: dict):
+    """Extracts equations from a list of strings"""
     parsed: list[str | list | Point3D | Line3D | VPlane] = []
     parsed += list(raw).copy()
     if isinstance(raw, tuple):
@@ -150,6 +153,7 @@ def parse_equations(raw: list[str | list] | tuple[str, list[Expr]], env: dict):
     return list(map(str, parsed))
 
 def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | None, dict]:
+    """Centralizes all user input processing and executing"""
     try:
         if ":" in raw and "=" in raw:
             lst = str_to_list(raw)
@@ -175,5 +179,4 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
     except NameError as e:
         print(f'Name error: {e}')
         return None, env
-    else:
-        return parsed, env
+    return parsed, env
