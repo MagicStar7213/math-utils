@@ -20,17 +20,17 @@ def main():
         if raw == 'q':
             return
         if raw.replace(" ", "") == "":
-            pass
+            processed = ''
         elif re.match(r'relpos \w+,\w+(,\w+)?', raw):
-            env = rel_pos(raw, env)
+            processed, env = rel_pos(raw, env)
         elif re.match(r'< ((\()?)(?(2)(\w+,\w+(,\w+)\))|\w+),((\()?)(?(6)(\w+,\w+(,\w+)\))|\w+)', raw):
-            env = angle(raw, env)
+            processed, env = angle(raw, env)
         elif re.match(r"d \w+,\w+", raw):
-            env = distance(raw, env)
+            processed, env = distance(raw, env)
         elif re.match(r"sim \w+,\w+", raw):
-            env = sim(raw, env)
+            processed, env = sim(raw, env)
         elif re.match(r'\|((\|)?)((\()?)(?(4)(\w+,\w+(,\w+)\))|\w+)(?(2)\|)\|', raw):
-            env = length(raw, env)
+            processed, env = length(raw, env)
         else:
             processed, env = process_geometry(raw, env)
             if processed is not None:
@@ -44,9 +44,8 @@ def main():
                         elif isinstance(eq, Tuple):
                             eq = tuple(Equality(i,0) for i in eq)
                         print(f'{sym} ≡ {pretty(eq).replace("(","{").replace(")","}")}')
+                        continue
                     elif isinstance(processed, Point3D):
                         print(f'{sym}{processed.coordinates}')
-                    else:
-                        print(pretty(processed))
-                else:
-                    print(pretty(processed))
+                        continue
+        print(pretty(processed))

@@ -18,8 +18,8 @@ def rel_pos(raw: str, env: dict):
         processed, env = process_geometry(geomid, env)
         if processed:
             relp.append(processed)
-    print(relpos(*relp))
-    return env
+    relative_position = relpos(*relp)
+    return (relative_position, env)
 
 def angle(raw: str, env: dict):
     clean = raw.removeprefix("< ")
@@ -38,8 +38,9 @@ def angle(raw: str, env: dict):
         result_angle = ang[0].angle_between(ang[1])
     except AttributeError:
         result_angle = ang[1].angle_between(ang[0])
-    print(str(N(result_angle) if isinstance(result_angle, (asin,acos,atan)) else N(2*pi+result_angle) if N(result_angle) < 0 else pretty(result_angle)))
-    return env
+    result_angle = str(N(result_angle) if isinstance(result_angle, (asin,acos,atan))
+                    else N(2*pi+result_angle) if N(result_angle) < 0 else pretty(result_angle))
+    return (result_angle, env)
 
 def distance(raw: str, env: dict):
     split = raw.removeprefix("d ").split(",")
@@ -50,12 +51,13 @@ def distance(raw: str, env: dict):
             dist.append(processed)
     result_distance = dist[0].distance(dist[1])
     num_distance = int(N(result_distance)) if float(N(result_distance)).is_integer() else float(N(result_distance))
-    print(f'{pretty(result_distance)}{f" ({num_distance})" if pretty(num_distance) != pretty(result_distance) else ""}')
-    return env
+    str_distance = f'{pretty(result_distance)}{f" ({num_distance})" if pretty(num_distance) != pretty(result_distance) else ""}'
+    return (str_distance, env)
 
 def sim(raw: str, env: dict):
     split = raw.removeprefix("sim ").split(",")
     simg: list[Line3D | VPlane | Point3D] = []
+    sim_point = ''
     for geomid in split:
         processed, env = process_geometry(geomid, env)
         if processed:
@@ -63,19 +65,20 @@ def sim(raw: str, env: dict):
     if len(simg) == 2 and any(isinstance(i,Point3D) for i in simg):
         p = next(i for i in simg if isinstance(i, Point3D))
         r = next(i for i in simg if isinstance(i, (Line3D, VPlane)))
-        print(sym_point(p, r))
-    return env
+        sim_point = sym_point(p, r)
+    return (sim_point, env)
 
 def length(raw: str, env: dict):
     clean = raw.removeprefix('|').removesuffix('|')
     if clean[0] == '|':
         clean = clean.removeprefix('|').removesuffix('|')
     processed, env = process_geometry(clean, env)
+    result_length = ''
     if isinstance(processed, Vector):
-        print(pretty(processed.length()))
+        result_length = pretty(processed.length())
     else:
         print("Value error: You can't get the length of that.")
-    return env
+    return (result_length, env)
 
 def str_to_list(raw: str) -> list[str | list] | tuple[str, list[Expr]]:
     stack: list[list[str | list]] = [[]]
