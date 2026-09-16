@@ -5,7 +5,7 @@ class Vector():
         self.x = x
         self.y = y
         self.z = z if z is not None else 0
-        self.components = (self.x,self.y) + (tuple(z) if z is not None else tuple())
+        self.components = (self.x,self.y) + (tuple([z]) if z is not None else tuple())
     
     def __neg__(self):
         return Vector(-self.x, -self.y, -self.z)
