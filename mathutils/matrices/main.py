@@ -11,13 +11,11 @@ from .utils import OPERATION_PATTERN, Matrix, parse_matrices
 
 def matrices():
     env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": []}
-    while True:
-        raw = input(">> ")
-        if raw.replace(" ", "") == "":
+    raw = input(">> ").strip()
+    while raw != 'q':
+        if raw == "":
             pass
-        elif raw.replace(" ","") == "q":
-            return
-        elif raw.replace(" ","") == "codec":
+        elif raw == "codec":
             Main().app()
         elif re.match(rf"(rg|rango|rank) {OPERATION_PATTERN}", raw):
             A = parse_matrices(raw.replace('rg','').replace('rango','').replace('rank',''), env)
@@ -38,3 +36,4 @@ def matrices():
                 if result:
                     print()
                     pprint(result)
+        raw = input(">> ").strip()

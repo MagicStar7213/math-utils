@@ -7,10 +7,8 @@ from .vector import Vector
 
 def main():
     env = {"classes": [Vector, VPlane, Line3D, Point3D], "whitelist": [], "vars": {}}
-    while True:
-        raw = input(">> ")
-        if raw == 'q':
-            return
+    raw = input(">> ").strip()
+    while raw != 'q':
         if raw.replace(" ", "") == "":
             processed = ''
         elif re.match(r'relpos \w+,\w+(,\w+)?', raw):
@@ -41,3 +39,4 @@ def main():
                         print(f'{sym}{processed.coordinates}')
                         continue
         print(pretty(processed))
+        raw = input(">> ").strip()
