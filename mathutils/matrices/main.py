@@ -6,7 +6,7 @@ from mathutils.parser import safe_eval
 from .codec import Main
 from .determinants import del_proportional_lines, del_zero_lines
 from .rank import print_rank, rank
-from .utils import MATRIX_PATTERN, OPERATION_PATTERN, Matrix, parse_matrices
+from .utils import OPERATION_PATTERN, Matrix, parse_matrices
 
 
 def matrices():
