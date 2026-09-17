@@ -11,13 +11,6 @@ from .utils import OPERATION_PATTERN, Matrix, parse_matrices
 
 def matrices():
     env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": []}
-    print("""
-    __  __           _            _        
-    |  \\/  |   __ _  | |_   _ __  (_) __  __
-    | |\\/| |  / _` | | __| | '__| | | \\ \\/ /
-    | |  | | | (_| | | |_  | |    | |  >  < 
-    |_|  |_|  \\__,_|  \\__| |_|    |_| /_/\\_\\                                        
-    """)
     while True:
         raw = input(">> ")
         if raw.replace(" ", "") == "":

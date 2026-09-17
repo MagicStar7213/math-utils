@@ -7,14 +7,6 @@ from .vector import Vector
 
 def main():
     env = {"classes": [Vector, VPlane, Line3D, Point3D], "whitelist": [], "vars": {}}
-    print("""
-     ____                                _                
-    / ___|   ___   ___   _ __ ___    ___ | |_  _ __  _   _ 
-    | |  _  / _ \\ / _ \\ | '_ ` _ \\  / _ \\| __|| '__|| | | |
-    | |_| ||  __/| (_) || | | | | ||  __/| |_ | |   | |_| |
-     \\____| \\___| \\___/ |_| |_| |_| \\___| \\__||_|    \\__, |
-                                                     |___/ 
-    """)
     while True:
         raw = input(">> ")
         if raw == 'q':
