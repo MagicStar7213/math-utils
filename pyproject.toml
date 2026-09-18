@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "math-utils"
-version = "0.3"
+version = "0.3pre1"
 description = "A CLI tool for using math operations"
 readme = "README.md"
 license = "GPL-3.0-or-later"
