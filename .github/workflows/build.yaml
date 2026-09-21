@@ -11,6 +11,7 @@ permissions:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
@@ -48,6 +49,7 @@ jobs:
           macos-app-name: Math utils
           macos-app-version: 0.4
           jobs: -1
+          mingw64: on
           low-memory: on
           nofollow-import-to: sympy.plotting,sympy.physics,sympy.categories,sympy.combinatorics,sympy.differential_geometry,sympy.holonomic,sympy.liealgebras,sympy.stats,sympy.tensor,sympy.vector,sympy.parsing.latex
 
