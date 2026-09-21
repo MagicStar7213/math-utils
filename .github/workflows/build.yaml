@@ -50,7 +50,7 @@ jobs:
           macos-app-version: 0.4
           jobs: -1
           low-memory: on
-          nofollow-import-to: sympy.plotting,sympy.physics,sympy.categories,sympy.combinatorics,sympy.differential_geometry,sympy.holonomic,sympy.liealgebras,sympy.stats,sympy.tensor,sympy.vector,sympy.parsing.latex
+          nofollow-import-to: sympy.physics,sympy.combinatorics,sympy.differential_geometry,sympy.stats,sympy.vector,sympy.parsing.latex
           clang: on
 
       - name: Upload Artifacts
