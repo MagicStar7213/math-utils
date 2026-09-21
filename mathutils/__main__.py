@@ -11,9 +11,9 @@ print("""
  |_|  |_|\\__,_|\\__|_| |_|  \\___/ \\__|_|_|___/
                                              
 """)
-option = input('Elige un campo. Geometría [g], Matrices [m] o Salir [q]: ').strip()
+option = input('Elige un campo. Geometría [g], Álgebra [a] o Salir [q]: ').strip()
 while option != "q":
     if option == "g":
         geometry()
-    elif option == "m":
+    elif option == "a":
         matrices()

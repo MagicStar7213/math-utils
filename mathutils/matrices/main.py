@@ -1,6 +1,7 @@
 import regex as re
 
-from sympy import Add, Integer, Mul, Rational, Symbol, parse_expr, pprint
+from sympy import Add, Integer, Mul, Rational, Symbol, parse_expr, pprint, pretty, solve
+from sympy.parsing.sympy_parser import T
 
 from mathutils.parser import safe_eval
 from .codec import Main
@@ -26,6 +27,12 @@ def matrices():
                     print_rank(ranks)
                 except ValueError:
                     print("ERROR: Mismatched dimensions.")
+        elif re.match(r"solve \S+", raw):
+            clean = raw.removeprefix('solve ')
+            systems = [parse_expr(x, transformations=T[1:5]+T[6]+T[8]+T[7]+T[9:]) for x in clean.split(',')]
+            processed = pretty(solve(systems))
+            result = processed.strip('{').strip('}').replace(', ', '\n')
+            print(f'Soluciones:\n{result}')
         else:
             parsed = parse_matrices(raw, env).replace("^","**")
             try:

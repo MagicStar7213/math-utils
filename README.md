@@ -5,11 +5,12 @@ This is a set of tools that allow to check or utilise individual math-related op
 
 ## Table of Contents
 - [USAGE](#usage)
-- [MATRICES](#matrices)
+- [ALGEBRA](#algebra)
   - [Notation](#notation)
   - [Usage](#usage-1)
   - [Encoding](#encoding)
   - [Decoding](#decoding)
+  - [Systems of equations](#systems-of-equations)
 - [GEOMETRY](#geometry)
   - [VECTORS](#vectors)
     - [Dot Product](#dot-product)
@@ -26,9 +27,9 @@ This is a set of tools that allow to check or utilise individual math-related op
 ## Usage
 The program is divided into modules that cover each topic. Currently, [**Matrices**](#matrices) and [**Geometry**](#geometry) modules are included. When the main program is run, you will be prompted to choose from several options, and so on until reaching a specific utility. Specifics to each module are specified both in the program and in the module's README.
 
-## Matrices
+## Algebra
 
-This tool is a console that lets you work with matrices in different ways. Supported operations are addition, subtraction, multiplication, adjugates, powers, determinants and ranks. A message encoder and decoder is also available.
+This tool is a console that lets you work with matrices in different ways, as well as with systems of linear equations. Supported matrix operations are addition, subtraction, multiplication, adjugates, powers, determinants and ranks. A message encoder and decoder is also available.
 
 Remember to follow the rules of matrices whe using this tool. Any illegal expression will throw an error.
 
@@ -144,6 +145,15 @@ $`\begin{pmatrix}
 
 would be introduced into the program like this: `3(9 37 13 24 54 28 63 60 3) 3(28 0 0 16 0 0 60 0 0)`. After, you input the encoding matrix `3(1 1 0 0 2 2 3 0 3)` and it gives us the original message `I LOVE MATH`
 
+### Systems of Equations
+In order to solve a system of linear equations, the equations must be typed separated with commas `,` and **NO SPACES** and must be preceded with the command `solve`, like this `solve 2x+y-z=3,x-y+4z=2,4x-y+z=0` and the solutions will be printed afterwards:
+```
+Solutions:
+x: 1/2
+y: 19/6
+z: 7/6
+```
+<ins>TIP</ins>: To save time, if an equation equals 0, it can be skipped when typing it, so that e.g. `x+y+z=0` can be entered as `x+y+z`
 
 
 ## Geometry
