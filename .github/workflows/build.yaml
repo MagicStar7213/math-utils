@@ -50,6 +50,7 @@ jobs:
           macos-app-version: 0.4
           jobs: -1
           low-memory: on
+          nofollow-import-to: sympy.physics,sympy.stats,sympy.vector,sympy.parsing.latex
           clang: on
 
       - name: Upload Artifacts
