@@ -17,3 +17,4 @@ while option != "q":
         geometry()
     elif option == "a":
         matrices()
+    option = input('Elige un campo. Geometría [g], Álgebra [a] o Salir [q]: ').strip()
