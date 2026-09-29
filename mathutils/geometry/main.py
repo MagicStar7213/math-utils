@@ -13,13 +13,13 @@ def main():
             processed = ''
         elif re.match(r'relpos \w+,\w+(,\w+)?', raw):
             processed, env = rel_pos(raw, env)
-        elif re.match(r'< ((\()?)(?(2)(\w+,\w+(,\w+)\))|\w+),((\()?)(?(6)(\w+,\w+(,\w+)\))|\w+)', raw):
+        elif re.match(r'< \S+,\S+', raw):
             processed, env = angle(raw, env)
         elif re.match(r"d \w+,\w+", raw):
             processed, env = distance(raw, env)
         elif re.match(r"sim \w+,\w+", raw):
             processed, env = sim(raw, env)
-        elif re.match(r'\|((\|)?)((\()?)(?(4)(\w+,\w+(,\w+)\))|\w+)(?(2)\|)\|', raw):
+        elif re.match(r'\|((\|)?)\S+(?(2)\|)\|', raw):
             processed, env = length(raw, env)
         else:
             processed, env = process_geometry(raw, env)
