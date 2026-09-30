@@ -113,8 +113,9 @@ class SafeEval(ast.NodeTransformer):
             raise ValueError('Call not allowed.')
 
     def visit_Tuple(self, node):
-        for e in list(node.elts):
-            self.visit(e) 
+        if any(isinstance(e, ast.Tuple) for e in node.elts):
+            raise ValueError("A vector cannot have another vector as an element, it must be part of an expression")
+        node.elts = [self.visit(e) for e in list(node.elts)]
         return ast.Call(
             func=ast.Name(id='Vector', ctx=ast.Load()),
             args=node.elts,
