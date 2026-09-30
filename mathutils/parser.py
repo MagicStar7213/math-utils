@@ -30,6 +30,8 @@ ALLOWED_FUNCTIONS = {
     "cos": math.cos,
     "max": max,
     "min": min,
+    "deg": math.degrees,
+    "rad": math.radians,
 }
 
 class SafeEval(ast.NodeTransformer):
