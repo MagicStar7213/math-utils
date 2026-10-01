@@ -1,4 +1,4 @@
-import re
+import regex as re
 from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, pretty, solve, Plane, Line3D
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
@@ -161,11 +161,14 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
             code = equations if isinstance(equations,str) else construct_string(equations) # type: ignore
         else:
             code = raw
-            if re.match(r"([A-Z]+\(-?\d(\.\d+)?,-?\d(\.\d+)?(,-?\d(\.\d+)?)?\))", raw):
+            points = list(re.finditer(r"([A-Z]+\([^, ],[^, ](,[^, ])?\))", raw))
+            if 0 < len(points) < 2:
                 separated = raw.split("(")
                 separated[-1] = separated[-1].removesuffix(")")
                 point = (separated[0], tuple(parse_expr(i) for i in separated[-1].split(",")))
                 code = f"{point[0]}=Point3D{point[1]}"
+            elif len(points) >= 2:
+                raise ValueError("A Point cannot be defined by another point")
         parsed, env = safe_eval(code, env)
     except SyntaxError as e:
         print(f'Syntax error: {e}')
