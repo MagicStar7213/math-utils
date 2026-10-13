@@ -38,5 +38,7 @@ def main():
                     elif isinstance(processed, Point3D):
                         print(f'{sym}{processed.coordinates}')
                         continue
+            else:
+                processed = ''
         print(pretty(processed))
         raw = input(">> ").strip()
