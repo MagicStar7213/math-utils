@@ -1,5 +1,5 @@
-import regex as re
 import warnings
+import regex as re
 from sympy import MutableDenseMatrix, NonSquareMatrixError, factor, nsimplify, parse_expr, srepr
 from sympy.parsing.sympy_parser import T
 
