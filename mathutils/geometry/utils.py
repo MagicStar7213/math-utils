@@ -103,7 +103,7 @@ def planos(p1: Plane, p2: Plane, p3: Plane | None = None):
 def sym_point(p: Point3D, r: Line3D | Plane):
     support = Plane(p, tuple(r.direction_ratio)) if isinstance(r, Line3D) else Line3D(p, direction_ratio=list(r.normal_vector)) # type: ignore
     om = support.intersection(r)
-    if om:
+    if om is not None:
         om = Vector(*om[0].coordinates) # type: ignore
         op = Vector(*p.coordinates)
         sym = 2*om - op
