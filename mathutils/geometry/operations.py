@@ -1,4 +1,4 @@
-from sympy import Eq, Line3D, Plane, Point3D
+from sympy import Eq, Line3D, Plane, Point3D, srepr
 
 from .vector import Vector
 from mathutils.matrices.rank import rank
@@ -107,4 +107,5 @@ def sym_point(p: Point3D, r: Line3D | Plane):
         om = Vector(*om[0].coordinates) # type: ignore
         op = Vector(*p.coordinates)
         sym = 2*om - op
-        return sym.components
+        return srepr(Point3D(sym.components))
+    raise ValueError("No symmetric point for that")
