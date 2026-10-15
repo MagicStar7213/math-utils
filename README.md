@@ -16,16 +16,16 @@ This is a set of tools that allow to check or utilise individual math-related op
     - [Dot Product](#dot-product)
     - [Cross product](#cross-product)
   - [ANALIYTIC GEOMETRY](#analytic-geometry)
-    - [Relative positions](#relative-positions)
+    - [Relative positions](#relative-positions-)
       - [3 Planes](#3-planes)
-    - [Distances](#distances)
-    - [Angles](#angles)
-    - [Symmetric points](#symmetric-points)
+    - [Distances](#distances-)
+    - [Angles](#angles-)
+    - [Symmetric points](#symmetric-points-)
 - [DEVELOPMENT](#development)
 
 
 ## Usage
-The program is divided into modules that cover each topic. Currently, [**Matrices**](#matrices) and [**Geometry**](#geometry) modules are included. When the main program is run, you will be prompted to choose from several options, and so on until reaching a specific utility. Specifics to each module are specified both in the program and in the module's README.
+The program is divided into modules that cover each topic. Currently, [**Matrices**](#algebra) and [**Geometry**](#geometry) modules are included. When the main program is run, you will be prompted to choose from several options, and so on until reaching a specific utility. Specifics to each module are specified both in the program and in the module's README.
 
 ## Algebra
 
@@ -159,6 +159,8 @@ z: 7/6
 ## Geometry
 This module covers most aspects related to geometry, such as vectors an 3D analytic geometry itself.
 
+<ins>**NOTE**</ins>: Any special operations will be marked with an asterisk (*). This means that when used as an argument for other operation the arguments for that special operation must be enclosed inside brackets (e.g. `<((1,2,0),(3,4,1))+1`)
+
 ### Vectors
 There is a utility for pure vector calculations. It currently has vector **dot** ($`\vec{u}`$ · $`\vec{v}`$) and **crossed** ($`\vec{u}`$ $`\wedge`$ $`\vec{v}`$) product. When $`\vec{u}`$ = $`(2,-1,3)`$ it will be introduced in the tool as `(2,-1,3)`.
 
@@ -180,7 +182,7 @@ A line is defined the same way, but 2 equations are needed: `r: 3x-y+z-1=0,y+z=-
 
 To perform any operation any geometric entities involved **must be defined first**, unlike with vectors.
 
-#### <ins>Relative positions</ins>
+#### <ins>Relative positions</ins> (*)
 You can also determine the relative position between geometric objects. To do that, you need to enter the `relpos` command, separating the elements to be compared separated just with commas. For example: `relpos r,pi`.
 
 **IMPORTANT**: You can only calculate the relative position between **2 objects**. <ins>Exceptions</ins>: You can calculate the relative position of an **indefinite** number of **points** and of **up to 3 planes**.
@@ -224,16 +226,16 @@ Possible positions are:
     </tbody>
 </table>
 
-#### <ins>Distances</ins>
+#### <ins>Distances</ins> (*)
 To get the distance between 2 elements you just type `d element1,element2` and you will get the distance and, if it is not a number by itself, it will be also expressed numerically. For example, `d r,pi` returns $`3`$ and `d P,r` gives back $`\sqrt{2}\hspace{2mm}(1.414213)`$
 
-#### <ins>Angles</ins>
+#### <ins>Angles</ins> (*)
 You can get the angle between two vectors or a combination of 2 lines and/or planes.
 
 You can get the angle between two vectors by typing them directly: `< (1,0,0),(0,2,4)` or defining them first and then calculating the angle in between: `< u,v`. **Lines and planes, however, must be defined first**.
 
 Angles will be displayed in **radians** and symbollically when possible ( $`\pi/2`$ instead of `1.57079`).
-#### <ins>Symmetric points</ins>
+#### <ins>Symmetric points</ins> (*)
 A symmetric point with respect to a line or plane can be obtained through `sim P,r`, being `P` a **Point** and `r` a **Line or Plane**. It will return the symmetric point's three coordinates: `(-2,0,-3)`
 
 ## Development
