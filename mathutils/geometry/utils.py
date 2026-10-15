@@ -1,5 +1,5 @@
+import regex as re
 from sympy import Eq, Line3D, Plane, Point3D, srepr
-
 from mathutils.matrices.rank import rank
 from mathutils.matrices.utils import Matrix
 from .vector import Vector
@@ -109,3 +109,25 @@ def sym_point(p: Point3D, r: Line3D | Plane):
         sym = 2*om - op
         return srepr(Point3D(sym.components))
     raise ValueError("No symmetric point for that")
+
+def get_op_scope(raw: str, start_index: int) -> tuple[int, int]:
+    parentheses_count = 0
+    for index in range(start_index,len(raw)):
+        if raw[index] == '(':
+            parentheses_count += 1
+        elif raw[index] == ')':
+            parentheses_count -= 1
+        if parentheses_count < 0:
+            raise SyntaxError('There are opening brackets missing')
+        if parentheses_count == 0:
+            return (start_index, index+1)
+    raise SyntaxError('Ending brackets missing')
+
+def parse_special_op(pattern: str, raw: str, code: str, func, env: dict) -> tuple[str, dict]:
+    for call in re.finditer(pattern, raw):
+        start_index, end_index = get_op_scope(raw, call.end())
+        raw_func = raw[start_index:end_index]
+        processed, env = func(raw_func.removeprefix('(').removesuffix(')'), env)
+        if processed is not None:
+            code = code.replace(call.group(0)+raw_func, processed)
+    return code, env
