@@ -1,8 +1,6 @@
-import re
-
+import regex as re
 from sympy import Equality, Expr, Line3D, Point3D, Symbol, Tuple, pretty
-
-from .geometry import VPlane, angle, distance, process_geometry, rel_pos, sim, length
+from .geometry import VPlane, process_geometry, length
 from .vector import Vector
 
 def main():
@@ -12,13 +10,17 @@ def main():
         if raw.replace(" ", "") == "":
             processed = ''
         elif re.match(r'relpos \w+,\w+(,\w+)?', raw):
-            processed, env = rel_pos(raw, env)
-        elif re.match(r'< \S+,\S+', raw):
-            processed, env = angle(raw, env)
+            valid_raw = raw.replace('relpos ', 'relpos(') + ')'
+            processed, env = process_geometry(valid_raw, env)
+        elif re.match(r'< (\([^()]+\)|\w+),((\([^()]+\))|\w+)', raw):
+            valid_raw = raw.replace('< ', '<(') + ')'
+            processed, env = process_geometry(valid_raw, env)
         elif re.match(r"d \w+,\w+", raw):
-            processed, env = distance(raw, env)
+            valid_raw = raw.replace('d ', 'd(') + ')'
+            processed, env = process_geometry(valid_raw, env)
         elif re.match(r"sim \w+,\w+", raw):
-            processed, env = sim(raw, env)
+            valid_raw = raw.replace('sim ', 'sim(') + ')'
+            processed, env = process_geometry(valid_raw, env)
         elif re.match(r'\|((\|)?)\S+(?(2)\|)\|', raw):
             processed, env = length(raw, env)
         else:

@@ -12,7 +12,7 @@ class VPlane(Plane):
         return super().__new__(cls, p1, normal_vector=normal_vector.components)
 
 def relpos(raw: str, env: dict):
-    split = raw.removeprefix('relpos ').split(',')
+    split = raw.split(',')
     relp: list[Point3D | Line3D | VPlane] = []
     for geomid in split:
         processed, env = process_geometry(geomid, env)
@@ -22,13 +22,12 @@ def relpos(raw: str, env: dict):
     return (relative_position, env)
 
 def angle(raw: str, env: dict):
-    clean = raw.removeprefix("< ")
-    if '(' in clean:
-        split = clean.split('),(')
+    if '(' in raw:
+        split = raw.split('),(')
         split[0] += ')'
         split[1] = '(' + split[1]
     else:
-        split = clean.split(',')
+        split = raw.split(',')
     ang: list[Line3D | VPlane] = []
     for geomid in split:
         processed, env = process_geometry(geomid, env)
@@ -43,7 +42,7 @@ def angle(raw: str, env: dict):
     return (result_angle, env)
 
 def distance(raw: str, env: dict):
-    split = raw.removeprefix("d ").split(",")
+    split = raw.split(",")
     dist: list[Line3D | VPlane | Point3D] = []
     for geomid in split:
         processed, env = process_geometry(geomid, env)
@@ -55,7 +54,7 @@ def distance(raw: str, env: dict):
     return (str_distance, env)
 
 def sim(raw: str, env: dict):
-    split = raw.removeprefix("sim ").split(",")
+    split = raw.split(",")
     simg: list[Line3D | VPlane | Point3D] = []
     sim_point = ''
     for geomid in split:
