@@ -3,7 +3,7 @@ from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
 from mathutils.parser import construct_string, safe_eval
-from .utils import rel_pos, sym_point
+from .utils import parse_special_op, rel_pos, sym_point
 from .vector import Vector
 
 
@@ -152,6 +152,8 @@ def parse_equations(raw: list[str | list] | tuple[str, list[Expr]], env: dict):
                 raise ValueError('Objects defined by more than 2 equations are not supported')
     return list(map(str, parsed))
 
+SPECIAL_OPS = [('relpos', relpos), ('<', angle), (r'd(?=\()', distance), ('sim', sim)]
+
 def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | None, dict]:
     """Centralizes all user input processing and executing"""
     try:
@@ -169,6 +171,13 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
                 code = f"{point[0]}=Point3D{point[1]}"
             elif len(points) >= 2:
                 raise ValueError("A Point cannot be defined by another point")
+            for op in SPECIAL_OPS:
+                code, env = parse_special_op(op[0], raw, code, op[1], env)
+            for raw_length in re.finditer(r'\|((\|)?)\S+(?(2)\|)\|', raw):
+                processed, env = length(raw_length.group(0), env)
+                if processed is not None:
+                    code = code.replace(raw_length.group(0), processed)
+
         parsed, env = safe_eval(code, env)
     except SyntaxError as e:
         print(f'Syntax error: {e}')
