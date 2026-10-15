@@ -5,7 +5,7 @@ from mathutils.matrices.utils import Matrix
 from .vector import Vector
 
 
-def relpos(*geom):
+def rel_pos(*geom):
     if all(isinstance(x, Point3D) for x in geom):
         return puntos(*geom)
     elif all(isinstance(x, Line3D) for x in geom):

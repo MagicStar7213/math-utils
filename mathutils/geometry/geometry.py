@@ -3,7 +3,7 @@ from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
 from mathutils.parser import construct_string, safe_eval
-from .operations import relpos, sym_point
+from .utils import rel_pos, sym_point
 from .vector import Vector
 
 
@@ -11,14 +11,14 @@ class VPlane(Plane):
     def __new__(cls, p1, normal_vector: Vector):
         return super().__new__(cls, p1, normal_vector=normal_vector.components)
 
-def rel_pos(raw: str, env: dict):
+def relpos(raw: str, env: dict):
     split = raw.removeprefix('relpos ').split(',')
     relp: list[Point3D | Line3D | VPlane] = []
     for geomid in split:
         processed, env = process_geometry(geomid, env)
         if processed:
             relp.append(processed)
-    relative_position = relpos(*relp)
+    relative_position = rel_pos(*relp)
     return (relative_position, env)
 
 def angle(raw: str, env: dict):
