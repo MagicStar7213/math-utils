@@ -110,12 +110,23 @@ def sym_point(p: Point3D, r: Line3D | Plane):
         return srepr(Point3D(sym.components))
     raise ValueError("No symmetric point for that")
 
-def get_op_scope(raw: str, start_index: int) -> tuple[int, int]:
+def get_op_scope(raw: str, start_index: int, enclosing_chars: str = '()') -> tuple[int, int]:
+    if len(enclosing_chars) == 1:
+        open_char = enclosing_chars
+        close_char = enclosing_chars
+    elif len(enclosing_chars) == 2:
+        open_char = enclosing_chars[0]
+        close_char = enclosing_chars[1]
+    elif enclosing_chars == '':
+        open_char = '('
+        close_char = ')'
+    else:
+        raise ValueError('DEBUG: Enclosing characters string must be at most 2 characters long')
     parentheses_count = 0
     for index in range(start_index,len(raw)):
-        if raw[index] == '(':
+        if raw[index] == open_char:
             parentheses_count += 1
-        elif raw[index] == ')':
+        elif raw[index] == close_char:
             parentheses_count -= 1
         if parentheses_count < 0:
             raise SyntaxError('There are opening brackets missing')
