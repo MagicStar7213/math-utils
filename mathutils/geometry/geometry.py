@@ -3,7 +3,8 @@ from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
 from mathutils.parser import construct_string, safe_eval
-from .utils import parse_special_op, rel_pos, sym_point
+from mathutils.utils import parse_special_op
+from .operations import rel_pos, sym_point
 from .vector import Vector
 
 
