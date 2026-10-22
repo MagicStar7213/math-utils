@@ -60,10 +60,10 @@ def parse_matrices(raw: str, env: dict) -> str:
     for var in reversed(sorted(env['vars'].keys(), key=len)):
         for find in re.finditer(var,raw):
             parsed = parsed.replace(find.group(0), srepr(env["vars"][var]))
-    for match in re.finditer(MATRIX_PATTERN, raw):
-        matrix = get_matrix(match.group(0))
+    for matrix_match in re.finditer(MATRIX_PATTERN, raw):
+        matrix = get_matrix(matrix_match.group(0))
         if matrix:
-            parsed = parsed.replace(match.group(0), srepr(matrix))
+            parsed = parsed.replace(matrix_match.group(0), srepr(matrix))
     for zero in re.finditer(ZEROS_PATTERN, raw):
         try:
             dimensions = tuple(map(int,zero.group(1).split('x')))
