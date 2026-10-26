@@ -25,11 +25,10 @@ def get_op_scope(raw: str, start_index: int, enclosing_chars: str = '()') -> tup
             return (start_index, index+1)
     raise SyntaxError('Ending brackets missing')
 
-def parse_special_op(pattern: str, raw: str, code: str, func, env: dict) -> tuple[str, dict]:
+def parse_special_op(pattern: str, raw: str, enclosing_chars = '()'):
+    subs: list[tuple[str, str]] = []
     for call in re.finditer(pattern, raw):
-        start_index, end_index = get_op_scope(raw, call.end())
+        start_index, end_index = get_op_scope(raw, call.end(), enclosing_chars)
         raw_func = raw[start_index:end_index]
-        processed, env = func(raw_func.removeprefix('(').removesuffix(')'), env)
-        if processed is not None:
-            code = code.replace(call.group(0)+raw_func, processed)
-    return code, env
+        subs.append((call.group(0)+raw_func, raw_func.removeprefix('(').removesuffix(')')))
+    return subs

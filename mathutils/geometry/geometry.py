@@ -152,7 +152,7 @@ def parse_equations(raw: list[str | list] | tuple[str, list[Expr]], env: dict):
                 raise ValueError('Objects defined by more than 2 equations are not supported')
     return list(map(str, parsed))
 
-SPECIAL_OPS = [('relpos', relpos), ('<', angle), (r'd(?=\()', distance), ('sim', sim)]
+SPECIAL_OPS = [('relpos', relpos), ('<', angle), (r'd(?=\()', distance), ('sim', sim), (r'\|', length)]
 
 def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | None, dict]:
     """Centralizes all user input processing and executing"""
@@ -172,13 +172,12 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
             elif len(points) >= 2:
                 raise ValueError("A Point cannot be defined by another point")
             for op in SPECIAL_OPS:
-                code, env = parse_special_op(op[0], raw, code, op[1], env)
-            for raw_length in re.finditer(r'\|((\|)?)\S+(?(2)\|)\|', raw):
-                processed, env = length(raw_length.group(0), env)
-                if processed is not None:
-                    code = code.replace(raw_length.group(0), processed)
+                for orig, evaluatable in parse_special_op(op[0], code, '|' if op[0] == r'\|' else '()'):
+                    parsed, env = op[1](evaluatable, env)
+                    if parsed is not None:
+                        code = code.replace(orig, parsed)
 
-        parsed, env = safe_eval(code, env)
+        processed, env = safe_eval(code, env)
     except SyntaxError as e:
         print(f'Syntax error: {e}')
         return None, env
@@ -191,4 +190,4 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
     except NameError as e:
         print(f'Name error: {e}')
         return None, env
-    return parsed, env
+    return processed, env

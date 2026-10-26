@@ -2,6 +2,7 @@ import warnings
 import regex as re
 from sympy import MutableDenseMatrix, NonSquareMatrixError, factor, nsimplify, parse_expr, srepr
 from sympy.parsing.sympy_parser import T
+from mathutils.utils import parse_special_op
 
 
 class Matrix(MutableDenseMatrix):
@@ -33,30 +34,20 @@ def get_matrix(raw: str) -> Matrix | None:
                 return None
             return Matrix(*dimensions,elts)
 
+SPECIAL_OPS = [('adj', Matrix.adjugate), ('det', Matrix.det)]
+
 def parse_matrices(raw: str, env: dict) -> str:
     parsed = raw
-    for adj in re.finditer(ADJ_PATTERN, raw):
-        raw_matrix = adj.group(0).replace("adj ", "")
-        pre_matrix = parse_matrices(raw_matrix, env)
-        matrix = parse_expr(pre_matrix)
-        if matrix:
+    for op in SPECIAL_OPS:
+        for orig, evaluatable in parse_special_op(op[0], parsed):
+            matrix = get_matrix(evaluatable)
             try:
-                adjugate = matrix.adjugate()
+                code = op[1](matrix)
             except NonSquareMatrixError:
                 print("ERROR: Given matrix not square, thus ∄ adj A.")
             else:
-                parsed = parsed.replace(adj.group(0), srepr(adjugate).replace('MutableDenseMatrix', 'Matrix'))
-    for det in re.finditer(DET_PATTERN, raw):
-        raw_matrix = det.group(0).removeprefix('|').removesuffix('|').replace("det ", "")
-        pre_matrix = parse_matrices(raw_matrix, env)
-        matrix = parse_expr(pre_matrix)
-        if matrix:
-            try:
-                determinant = matrix.det(iszerofunc=matrix_is_zero)
-            except NonSquareMatrixError:
-                print("ERROR: Given matrix not square, thus ∄ det A.")
-            else:
-                parsed = parsed.replace(det.group(0), str(factor(nsimplify(determinant))))
+                if code is not None:
+                    parsed = parsed.replace(orig, srepr(factor(nsimplify(code))).replace('MutableDenseMatrix', 'Matrix'))
     for var in reversed(sorted(env['vars'].keys(), key=len)):
         for find in re.finditer(var,raw):
             parsed = parsed.replace(find.group(0), srepr(env["vars"][var]))
