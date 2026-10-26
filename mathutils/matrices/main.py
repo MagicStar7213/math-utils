@@ -7,19 +7,20 @@ from mathutils.parser import safe_eval
 from .codec import Main
 from .determinants import del_proportional_lines, del_zero_lines
 from .rank import print_rank, rank
-from .utils import OPERATION_PATTERN, Matrix, parse_matrices
+from .utils import Matrix, parse_matrices
 
 
 def matrices():
     env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": []}
     raw = input(">> ").strip()
+    rg_match = re.match(r"(rg|rang) ", raw)
     while raw != 'q':
         if raw == "":
             pass
         elif raw == "codec":
             Main().app()
-        elif re.match(rf"(rg|rango|rank) {OPERATION_PATTERN}", raw):
-            A = parse_matrices(raw.replace('rg','').replace('rango','').replace('rank',''), env)
+        elif rg_match:
+            A = parse_matrices(raw.removeprefix(rg_match.group(0)), env)
             if A:
                 A = del_proportional_lines(del_zero_lines(parse_expr(A)))
                 try:
