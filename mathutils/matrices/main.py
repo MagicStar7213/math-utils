@@ -41,7 +41,6 @@ def matrices():
             except (ValueError, NameError, TypeError, SyntaxError) as e:
                 print(f"ERROR: {e}")
             else:
-                if result:
-                    print()
+                if result is not None:
                     pprint(result)
         raw = input(">> ").strip()
