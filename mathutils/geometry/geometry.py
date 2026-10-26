@@ -65,7 +65,11 @@ def sim(raw: str, env: dict):
     if len(simg) == 2 and any(isinstance(i,Point3D) for i in simg):
         p = next(i for i in simg if isinstance(i, Point3D))
         r = next(i for i in simg if isinstance(i, (Line3D, VPlane)))
-        sim_point = sym_point(p, r)
+        try:
+            sim_point = sym_point(p, r)
+        except ValueError as e:
+            print('ERROR:', e)
+            return (raw, env)
     return (sim_point, env)
 
 def length(raw: str, env: dict):
