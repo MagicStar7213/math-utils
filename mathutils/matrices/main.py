@@ -11,7 +11,7 @@ from .utils import Matrix, parse_matrices
 
 
 def matrices():
-    env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": []}
+    env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": [], 'attrs': ['L', 'U']}
     raw = input(">> ").strip()
     rg_match = re.match(r"(rg|rang) ", raw)
     while raw != 'q':

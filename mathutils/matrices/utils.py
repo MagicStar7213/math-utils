@@ -6,7 +6,13 @@ from mathutils.utils import parse_special_op
 
 
 class Matrix(MutableDenseMatrix):
-    pass
+    @property
+    def L(self):
+        return self.LUdecomposition()[0]
+
+    @property
+    def U(self):
+        return self.LUdecomposition()[1]
 
 MATRIX_PATTERN = r"(\d+(x\d+)?)(\((([^()]|(?3))+)\))"
 ZEROS_PATTERN = r"O(\d+(x\d+)?)"
