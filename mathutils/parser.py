@@ -60,14 +60,14 @@ class SafeEval(ast.NodeTransformer):
     def visit_Name(self, node):
         classes = [cls.__name__ for cls in self.env['classes']]
         if node.id not in self.env['whitelist'] and node.id not in self.env['vars'] and node.id not in classes:
-            raise NameError(f"Undefined variable '{node.id}'")
+            raise NameError(f"Undefined variable or class '{node.id}'")
         return node
 
     def visit_Attribute(self, node):
-        if type(node.value) is not ast.Name:
-            raise ValueError('Attribute should be called from a Name')
-        if node.value.id not in self.env['vars']:
-            raise ValueError(f'Class {node.value.id} cannot be called')
+        if isinstance(node.value,(ast.Name, ast.Call)):
+            node.value = self.visit(node.value)
+        else:
+            raise ValueError('Attribute should be called from a Name or Call')
         if 'attrs' in self.env.keys() and node.attr in self.env['attrs']:
             return node
         else:
