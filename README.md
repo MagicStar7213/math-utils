@@ -96,6 +96,11 @@ A * B
 ⎣ 8   -6  -3⎦
  ```
 
+ #### <ins>LU decomposition</ins>
+ To acces the lower or upper triangular matrix of a matrix's LU decomposition, write the matrix notation or variable number and then append `.L` for the lower triangular or `.U` for the upper one.
+
+ For example, `3(1 2 3 4 1 2 6 -1 9).L` or `3(5 2 3 0 1 2 6 -2 0).U`
+
 To access the message encoder/decoder, enter the special command `codec`.
 
 ### Encoding
