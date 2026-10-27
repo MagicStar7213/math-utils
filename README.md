@@ -44,6 +44,7 @@ Matrices should be introduced in a special way. First, the dimensions must be in
 - For *ranks*, use either **rg** A | **rango** A | **rank** A
 - For *adjugates*, use **adj** A
 - For *traces*, use **tr** A
+- For *diagonalization*, use **diag** A
 - To *transpose* any matrix, enter the matrix and raise it to the "power" of **T**
 
 There are also references to special kinds of matrices, such as zero and identity matrices. 
