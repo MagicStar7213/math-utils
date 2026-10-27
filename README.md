@@ -8,6 +8,7 @@ This is a set of tools that allow to check or utilise individual math-related op
 - [ALGEBRA](#algebra)
   - [Notation](#notation)
   - [Usage](#usage-1)
+    - [LU Decomposition](#lu-decomposition)
   - [Encoding](#encoding)
   - [Decoding](#decoding)
   - [Systems of equations](#systems-of-equations)
@@ -42,6 +43,7 @@ Matrices should be introduced in a special way. First, the dimensions must be in
 - For *determinants*, use either |A| or **det** A
 - For *ranks*, use either **rg** A | **rango** A | **rank** A
 - For *adjugates*, use **adj** A
+- For *traces*, use **tr** A
 - To *transpose* any matrix, enter the matrix and raise it to the "power" of **T**
 
 There are also references to special kinds of matrices, such as zero and identity matrices. 

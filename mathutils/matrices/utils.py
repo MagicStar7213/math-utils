@@ -40,7 +40,7 @@ def get_matrix(raw: str) -> Matrix | None:
                 return None
             return Matrix(*dimensions,elts)
 
-SPECIAL_OPS = [('adj', Matrix.adjugate), ('det', Matrix.det)]
+SPECIAL_OPS = [('adj', Matrix.adjugate), ('det', Matrix.det), ('tr', Matrix.trace)]
 
 def parse_matrices(raw: str, env: dict) -> str:
     parsed = raw
