@@ -79,7 +79,7 @@ def length(raw: str, env: dict):
     processed, env = process_geometry(clean, env)
     result_length = ''
     if isinstance(processed, Vector):
-        result_length = pretty(processed.length())
+        result_length = pretty(processed.norm())
     else:
         print("Value error: You can't get the length of that.")
     return (result_length, env)

@@ -1,4 +1,4 @@
-from sympy import Mul, acos, sqrt
+from sympy import Mul, acos
 from mathutils.matrices.utils import Matrix
 
 class Vector(Matrix):
@@ -28,10 +28,6 @@ class Vector(Matrix):
     def __str__(self) -> str:
         return str(self.components)
 
-    def length(self):
-        """Returns the magnitude or length of the vector"""
-        return sqrt(sum(j**2 for j in self.components))
-
     def angle_between(self, v: 'Vector'):
         """Returns the angle between the vector and another one, v"""
-        return acos((self*v)/Mul(self.length(),v.length()))
+        return acos((self.dot(v))/Mul(self.norm(),v.norm()))
