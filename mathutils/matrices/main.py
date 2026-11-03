@@ -10,6 +10,17 @@ from .rank import print_rank, rank
 from .utils import Matrix, parse_matrices
 
 
+def print_result(raw: str, env: dict):
+    processed = parse_matrices(raw, env).replace("^","**")
+    try:
+        result, env = safe_eval(processed, env)
+    except (ValueError, NameError, TypeError, SyntaxError) as e:
+        print(f"ERROR: {e}")
+    else:
+        if result is not None:
+            pprint(result)
+    return env
+
 def matrices():
     env = {"classes": [Matrix, Symbol, Mul, Add, Rational, Integer], "vars": {}, "whitelist": [], 'attrs': ['L', 'U']}
     raw = input(">> ").strip()
@@ -19,6 +30,18 @@ def matrices():
             pass
         elif raw == "codec":
             Main().app()
+        elif raw.startswith('adj '):
+            parsed = raw.replace('adj ', 'adj(')+')'
+            env = print_result(parsed, env)
+        elif raw.startswith('det '):
+            parsed = raw.replace('det ', 'det(')+')'
+            env = print_result(parsed, env)
+        elif raw.startswith('tr '):
+            parsed = raw.replace('tr ', 'tr(')+')'
+            env = print_result(parsed, env)
+        elif raw.startswith('diag '):
+            parsed = raw.replace('diag ', 'diag(')+')'
+            env = print_result(parsed, env)
         elif rg_match:
             A = parse_matrices(raw.removeprefix(rg_match.group(0)), env)
             if A:
@@ -35,12 +58,5 @@ def matrices():
             result = parsed.strip('{').strip('}').replace(', ', '\n')
             print(f'Soluciones:\n{result}')
         else:
-            processed = parse_matrices(raw, env).replace("^","**")
-            try:
-                result, env = safe_eval(processed, env)
-            except (ValueError, NameError, TypeError, SyntaxError) as e:
-                print(f"ERROR: {e}")
-            else:
-                if result is not None:
-                    pprint(result)
+            env = print_result(raw, env)
         raw = input(">> ").strip()
