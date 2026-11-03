@@ -28,6 +28,8 @@ This is a set of tools that allow to check or utilise individual math-related op
 ## Usage
 The program is divided into modules that cover each topic. Currently, [**Matrices**](#algebra) and [**Geometry**](#geometry) modules are included. When the main program is run, you will be prompted to choose from several options, and so on until reaching a specific utility. Specifics to each module are specified both in the program and in the module's README.
 
+<ins>**NOTE**</ins>: Any special operations will be marked with an asterisk (*). This means that when used as an argument for other operation the arguments for that special operation must be enclosed inside brackets (e.g. `<((1,2,0),(3,4,1))+1`)
+
 ## Algebra
 
 This tool is a console that lets you work with matrices in different ways, as well as with systems of linear equations. Supported matrix operations are addition, subtraction, multiplication, adjugates, powers, determinants and ranks. A message encoder and decoder is also available.
@@ -40,11 +42,11 @@ Matrices should be introduced in a special way. First, the dimensions must be in
 - For *addition* and *subtraction* use conventional notation (A+B and A-B)
 - For *multiplication*, use A<b> * </b>B
 - For *powers* ( A<sup>n</sup> ), use A<b>**</b>n or A^n
-- For *determinants*, use either |A| or **det** A
+- For *determinants*, use either |A| or **det** A (*)
 - For *ranks*, use either **rg** A | **rango** A | **rank** A
-- For *adjugates*, use **adj** A
-- For *traces*, use **tr** A
-- For *diagonalization*, use **diag** A
+- For *adjugates*, use **adj** A (*)
+- For *traces*, use **tr** A (*)
+- For *diagonalization*, use **diag** A (*)
 - To *transpose* any matrix, enter the matrix and raise it to the "power" of **T**
 
 There are also references to special kinds of matrices, such as zero and identity matrices. 
@@ -166,8 +168,6 @@ z: 7/6
 
 ## Geometry
 This module covers most aspects related to geometry, such as vectors an 3D analytic geometry itself.
-
-<ins>**NOTE**</ins>: Any special operations will be marked with an asterisk (*). This means that when used as an argument for other operation the arguments for that special operation must be enclosed inside brackets (e.g. `<((1,2,0),(3,4,1))+1`)
 
 ### Vectors
 There is a utility for pure vector calculations. It currently has vector **dot** ($`\vec{u}`$ · $`\vec{v}`$) and **crossed** ($`\vec{u}`$ $`\wedge`$ $`\vec{v}`$) product. When $`\vec{u}`$ = $`(2,-1,3)`$ it will be introduced in the tool as `(2,-1,3)`.
