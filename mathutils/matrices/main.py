@@ -31,13 +31,13 @@ def matrices():
         elif re.match(r"solve \S+", raw):
             clean = raw.removeprefix('solve ')
             systems = [parse_expr(x, transformations=T[1:5]+T[6]+T[8]+T[7]+T[9:]) for x in clean.split(',')]
-            processed = pretty(solve(systems))
-            result = processed.strip('{').strip('}').replace(', ', '\n')
+            parsed = pretty(solve(systems))
+            result = parsed.strip('{').strip('}').replace(', ', '\n')
             print(f'Soluciones:\n{result}')
         else:
-            parsed = parse_matrices(raw, env).replace("^","**")
+            processed = parse_matrices(raw, env).replace("^","**")
             try:
-                result, env = safe_eval(parsed, env)
+                result, env = safe_eval(processed, env)
             except (ValueError, NameError, TypeError, SyntaxError) as e:
                 print(f"ERROR: {e}")
             else:
