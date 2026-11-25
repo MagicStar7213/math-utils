@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "math-utils"
-version = "0.4.dev7"
+version = "0.4.dev8"
 description = "A CLI tool for using math operations"
 readme = "README.md"
 license = "GPL-3.0-or-later"
@@ -35,7 +35,7 @@ Repository = "https://github.com/MagicStar7213/math-utils.git"
 "Bug Tracker" = "https://github.com/MagicStar7213/math-utils/issues"
 
 [project.scripts]
-math-utils = "mathutils.__main__:main"
+math-utils = "mathutils.main:main"
 
 [tool.setuptools]
 packages = ["mathutils", "mathutils.matrices", "mathutils.geometry"]
