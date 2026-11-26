@@ -21,7 +21,7 @@ def main():
         elif re.match(r"sim \w+,\w+", raw):
             valid_raw = raw.replace('sim ', 'sim(') + ')'
             processed, env = process_geometry(valid_raw, env)
-        elif re.match(r'\|((\|)?)\S+(?(2)\|)\|', raw):
+        elif re.match(r'\|\|[^\|\|]+\|\|', raw):
             processed, env = length(raw, env)
         else:
             processed, env = process_geometry(raw, env)

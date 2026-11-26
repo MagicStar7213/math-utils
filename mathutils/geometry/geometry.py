@@ -73,9 +73,7 @@ def sim(raw: str, env: dict):
     return (sim_point, env)
 
 def length(raw: str, env: dict):
-    clean = raw.removeprefix('|').removesuffix('|')
-    if clean[0] == '|':
-        clean = clean.removeprefix('|').removesuffix('|')
+    clean = raw.removeprefix('||').removesuffix('||')
     processed, env = process_geometry(clean, env)
     result_length = ''
     if isinstance(processed, Vector):
@@ -156,7 +154,7 @@ def parse_equations(raw: list[str | list] | tuple[str, list[Expr]], env: dict):
                 raise ValueError('Objects defined by more than 2 equations are not supported')
     return list(map(str, parsed))
 
-SPECIAL_OPS = [('relpos', relpos), ('<', angle), (r'd(?=\()', distance), ('sim', sim), (r'\|', length)]
+SPECIAL_OPS = [('relpos', relpos), ('<', angle), (r'd(?=\()', distance), ('sim', sim)]
 
 def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | None, dict]:
     """Centralizes all user input processing and executing"""
@@ -175,8 +173,11 @@ def process_geometry(raw: str, env: dict) -> tuple[Point3D | Line3D | VPlane | N
                 code = f"{point[0]}=Point3D{point[1]}"
             elif len(points) >= 2:
                 raise ValueError("A Point cannot be defined by another point")
+            for length_match in re.finditer(r'\|\|[^\|\|]+\|\|', code):
+                length_processed, env = length(length_match.group(0), env)
+                code = code.replace(length_match.group(0), length_processed)
             for op in SPECIAL_OPS:
-                for orig, evaluatable in parse_special_op(op[0], code, '|' if op[0] == r'\|' else '()'):
+                for orig, evaluatable in parse_special_op(op[0], code):
                     parsed, env = op[1](evaluatable, env)
                     if parsed is not None:
                         code = code.replace(orig, parsed)

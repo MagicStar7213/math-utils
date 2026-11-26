@@ -1,18 +1,7 @@
 import regex as re
 
 
-def get_op_scope(raw: str, start_index: int, enclosing_chars: str = '()') -> tuple[int, int]:
-    if len(enclosing_chars) == 1:
-        open_char = enclosing_chars
-        close_char = enclosing_chars
-    elif len(enclosing_chars) == 2:
-        open_char = enclosing_chars[0]
-        close_char = enclosing_chars[1]
-    elif enclosing_chars == '':
-        open_char = '('
-        close_char = ')'
-    else:
-        raise ValueError('DEBUG: Enclosing characters string must be at most 2 characters long')
+def get_op_scope(raw: str, start_index: int, open_char: str = '(', close_char: str = ')') -> tuple[int, int]:
     parentheses_count = 0
     for index in range(start_index,len(raw)):
         if raw[index] == open_char:
@@ -25,10 +14,10 @@ def get_op_scope(raw: str, start_index: int, enclosing_chars: str = '()') -> tup
             return (start_index, index+1)
     raise SyntaxError('Ending brackets missing')
 
-def parse_special_op(pattern: str, raw: str, enclosing_chars = '()'):
+def parse_special_op(pattern: str, raw: str):
     subs: list[tuple[str, str]] = []
     for call in re.finditer(pattern, raw):
-        start_index, end_index = get_op_scope(raw, call.end(), enclosing_chars)
+        start_index, end_index = get_op_scope(raw, call.end())
         raw_func = raw[start_index:end_index]
         subs.append((call.group(0)+raw_func, raw_func.removeprefix('(').removesuffix(')')))
     return subs
