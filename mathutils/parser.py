@@ -85,6 +85,8 @@ class SafeEval(ast.NodeTransformer):
     def visit_BinOp(self, node):
         if type(node.op) not in OPS:
             raise ValueError("Operation not allowed")
+        if isinstance(node.op, ast.BitXor):
+            node.op = ast.Pow()
         node.left = self.visit(node.left)
         if isinstance(node.op, ast.Pow) and isinstance(node.right, ast.Name) and node.right.id.lower() == "t":
             node = ast.Attribute(value=node.left, attr=node.right.id.upper(), ctx=ast.Load())
