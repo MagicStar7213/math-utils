@@ -1,5 +1,5 @@
 import regex as re
-from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, pretty, solve, Plane, Line3D
+from sympy import N, Symbol, acos, asin, atan, parse_expr, Equality, Expr, Point3D, pi, solve, Plane, Line3D
 from sympy.abc import x, y ,z
 from sympy.parsing.sympy_parser import T
 from mathutils.parser import construct_string, safe_eval
@@ -39,7 +39,7 @@ def angle(raw: str, env: dict):
     except AttributeError:
         result_angle = ang[1].angle_between(ang[0])
     result_angle = str(N(result_angle) if isinstance(result_angle, (asin,acos,atan))
-                    else N(2*pi+result_angle) if N(result_angle) < 0 else pretty(result_angle))
+                    else N(2*pi+result_angle) if N(result_angle) < 0 else str(result_angle))
     return (result_angle, env)
 
 def distance(raw: str, env: dict):
@@ -51,7 +51,7 @@ def distance(raw: str, env: dict):
             dist.append(processed)
     result_distance = dist[0].distance(dist[1])
     num_distance = int(N(result_distance)) if float(N(result_distance)).is_integer() else float(N(result_distance))
-    str_distance = f'{pretty(result_distance)}{f" ({num_distance})" if pretty(num_distance) != pretty(result_distance) else ""}'
+    str_distance = f'{str(result_distance)}{f" ({num_distance})" if str(num_distance) != str(result_distance) else ""}'
     return (str_distance, env)
 
 def sim(raw: str, env: dict):
@@ -77,7 +77,7 @@ def length(raw: str, env: dict):
     processed, env = process_geometry(clean, env)
     result_length = ''
     if isinstance(processed, Vector):
-        result_length = pretty(processed.norm())
+        result_length = str(processed.norm())
     else:
         print("Value error: You can't get the length of that.")
     return (result_length, env)
