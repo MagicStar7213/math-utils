@@ -1,6 +1,5 @@
 import ast
 import math
-import operator
 
 
 def are_elements_numbers(lst: list[str]) -> bool:
@@ -15,15 +14,15 @@ def construct_string(lst: list[str | list]) -> str:
     return ''.join([construct_string(x) if isinstance(x, list) else x for x in lst])
 
 
-OPS = {
-    ast.Add: operator.add,
-    ast.Sub: operator.sub,
-    ast.Mult: operator.mul,
-    ast.Div: operator.truediv,
-    ast.Pow: operator.pow,
-    ast.BitXor: operator.xor,
-    ast.USub: operator.neg
-}
+OPS = [
+    ast.Add,
+    ast.Sub,
+    ast.Mult,
+    ast.Div,
+    ast.Pow,
+    ast.BitXor,
+    ast.USub
+]
 ALLOWED_FUNCTIONS = {
     "sqrt": math.sqrt,
     "sin": math.sin,
@@ -84,7 +83,7 @@ class SafeEval(ast.NodeTransformer):
         return node
 
     def visit_BinOp(self, node):
-        if type(node.op) not in OPS.keys():
+        if type(node.op) not in OPS:
             raise ValueError("Operation not allowed")
         node.left = self.visit(node.left)
         if isinstance(node.op, ast.Pow) and isinstance(node.right, ast.Name) and node.right.id.lower() == "t":
